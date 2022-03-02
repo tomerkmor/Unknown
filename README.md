@@ -1,3 +1,3 @@
 Project's idea: ... 
 
-Participants: Roy, Elad, Tomer, Dan
+Participants: Roy, Elad, Tomer
