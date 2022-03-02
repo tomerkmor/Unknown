@@ -1,2 +1,3 @@
-Project's idea: ... \n
+Project's idea: ... 
+
 Participants: Roy, Elad, Tomer, Dan
