@@ -10,13 +10,27 @@ function resetCamera(){
 resetCamera();
 //###################################################
 
+function haversine_distance(mk1, mk2) {
+    var R = 6371.0710; // the Radius in k"m
+    // 3958.8 -Radius of the Earth in miles
+    var rlat1 = mk1.position.lat() * (Math.PI/180); // Convert degrees to radians
+    var rlat2 = mk2.position.lat() * (Math.PI/180); // Convert degrees to radians
+    var difflat = rlat2-rlat1; // Radian difference (latitudes)
+    var difflon = (mk2.position.lng()-mk1.position.lng()) * (Math.PI/180); // Radian difference (longitudes)
+
+    var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat/2)*Math.sin(difflat/2)+Math.cos(rlat1)*Math.cos(rlat2)*Math.sin(difflon/2)*Math.sin(difflon/2)));
+    return d;
+}
+
+
+
 function initMap(position) {
     
     // The location of myLocation
     //lat: 32.0309563, lng: 34.8670006
     //lat: position.coords.latitude, lng: position.coords.longitude
     //alert("lat:" + position.coords.latitude +"\nlng: " + position.coords.longitude)
-    
+    var nothing;
     const myLocation = { lat: position.coords.latitude, lng: position.coords.longitude};
     // The map, centered at myLocation
     const map = new google.maps.Map(document.getElementById("map"), {
@@ -27,19 +41,19 @@ function initMap(position) {
 
 // creating the "center" of the map
     // The marker, positioned at myLocation
-    const marker = new google.maps.Marker({
+    const mainMarker = new google.maps.Marker({
         position: myLocation,
         map: map
     });
 
     var infoWindow = new google.maps.InfoWindow({
-        content: "יאללה ישיבה אצל פרוזן?"
+        content: "Your location"
     });
 
-    marker.addListener("click", () => {
-        infoWindow.open(map,marker);
+    mainMarker.addListener("click", () => {
+        infoWindow.open(map,mainMarker);
     });
-    
+
 // -----------------------------------------------
 
 
@@ -51,7 +65,7 @@ function initMap(position) {
             map:map,
             icon: props.iconImage,
         });
-
+        
         //the window tab
         var infoWindow = new google.maps.InfoWindow({
             content: props.txt
@@ -61,6 +75,8 @@ function initMap(position) {
         maker.addListener("click", () => {
             infoWindow.open(map,maker);
         });
+
+        return maker;
     }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,9 +84,9 @@ function initMap(position) {
     const hisLocation = {lat: 32.0409563, lng: 34.8970006}
     const hisName = '<h2>Stefan<h2>'
 
-    const herLocation = {lat: 32.0459563, lng: 34.8970006}
+    //frozen's house address
+    const herLocation = {lat: 32.0309563, lng: 34.8670006}
     const herName = '<h2>Yulia<h2>'
-
 
 
     //convert his name into html & css
@@ -80,19 +96,31 @@ function initMap(position) {
     var div2 = document.createElement("div");
     div2.innerHTML = herName;
 
-    
-    addMarker({
+
+    var maker = addMarker({
         coords: hisLocation,
         iconImage: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
         txt: hisName
     })
 
-    addMarker({
+    var maker2 = addMarker({
         coords: herLocation,
         iconImage: 'http://labs.google.com/ridefinder/images/mm_20_green.png',
         txt: herName
     })
 
+    // draw the lines on the map -- visual effect
+    var line = new google.maps.Polyline({path: [hisLocation, herLocation], map: map});
+    var line2 = new google.maps.Polyline({path: [myLocation, herLocation], map: map});
+
+    console.log("alert...");
+    console.log("inside of the function: " + maker);
+    console.log("inside of the function: " + maker2);
+
+    // Calculate and display the distance between markers
+    var distance = haversine_distance(mainMarker,maker2);
+    alert("alert...2222");
+    document.getElementById('msg').innerHTML = "Distance between you and frozen's home is: " + distance.toFixed(3) + " k\"m.";
 /*
     iconList = {
         'beach-flag' : 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
