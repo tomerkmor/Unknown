@@ -3,11 +3,13 @@ body {
 }
 
 
-#map {
+#map, #msg{
+    text-align: center;
     height: 400px;
     /* The height is 400 pixels */
     width: 60%;
     /* The width is the width of the web page */
     margin: 0 auto;
     border: 3px solid red;
+    padding-top: 5px;
 }
