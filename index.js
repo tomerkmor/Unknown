@@ -119,7 +119,6 @@ function initMap(position) {
 
     // Calculate and display the distance between markers
     var distance = haversine_distance(mainMarker,maker2);
-    alert("alert...2222");
     document.getElementById('msg').innerHTML = "Distance between you and frozen's home is: " + distance.toFixed(3) + " k\"m.";
 /*
     iconList = {
