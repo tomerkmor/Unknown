@@ -1,21 +1,3 @@
-var x = document.getElementById("location")
-
-
-
-function showPosition(position) {
-    alert("Your location: \nLatitude: " + position.coords.latitude + "\nLongitude: " + position.coords.longitude);
-    
-}
-
-function returnLat(position){
-    //alert(position.coords.latitude)
-    return position.coords.latitude;
-}
-
-function returnLng(position){
-    return position.coords.longitude;
-}
-
 function resetCamera(){
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(initMap);
@@ -24,6 +6,7 @@ function resetCamera(){
     }
 }
 
+
 resetCamera();
 //###################################################
 
@@ -31,7 +14,9 @@ function initMap(position) {
     
     // The location of myLocation
     //lat: 32.0309563, lng: 34.8670006
-    alert(position.coords.latitude)
+    //lat: position.coords.latitude, lng: position.coords.longitude
+    //alert("lat:" + position.coords.latitude +"\nlng: " + position.coords.longitude)
+    
     const myLocation = { lat: position.coords.latitude, lng: position.coords.longitude};
     // The map, centered at myLocation
     const map = new google.maps.Map(document.getElementById("map"), {
